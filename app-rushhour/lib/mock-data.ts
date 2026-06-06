@@ -9,7 +9,9 @@ export const MOCK_BUSINESS: BusinessProfile = {
 
 export const MOCK_CREATOR: CreatorProfile = {
   id: "cr_lisa", handle: "@lisa_hamburg_eats", platform: "instagram", followers: 8400,
-  avatarUrl: "https://i.pravatar.cc/150?img=47", topics: ["food", "local", "lifestyle"],
+  avatarUrl: "https://i.pravatar.cc/150?img=47",
+  coverUrl: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80&auto=format&fit=crop",
+  topics: ["food", "local", "lifestyle"],
   styleTags: ["warm", "authentisch", "cozy"], audienceCity: "Hamburg", engagementRate: 0.082,
   signals: { localShare: 0.71, engagement: 0.9, reach: 0.25 },
 };
@@ -17,7 +19,9 @@ export const MOCK_CREATOR: CreatorProfile = {
 const lisa: CreatorProfile = MOCK_CREATOR;
 const foodie: CreatorProfile = {
   id: "cr_foodie_de", handle: "@foodie_germany", platform: "instagram", followers: 210000,
-  avatarUrl: "https://i.pravatar.cc/150?img=12", topics: ["food", "travel"], styleTags: ["clean", "modern"],
+  avatarUrl: "https://i.pravatar.cc/150?img=12",
+  coverUrl: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80&auto=format&fit=crop",
+  topics: ["food", "travel"], styleTags: ["clean", "modern"],
   audienceCity: "Berlin", engagementRate: 0.018, signals: { localShare: 0.08, engagement: 0.4, reach: 0.95 },
 };
 

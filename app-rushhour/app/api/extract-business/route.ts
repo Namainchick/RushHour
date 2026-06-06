@@ -1,12 +1,16 @@
 import { NextResponse } from "next/server";
-import businesses from "@/lib/fixtures/businesses.json";
-import { BusinessProfile } from "@/lib/types";
+import { extractBusiness } from "@/lib/extract";
+import { saveBusiness } from "@/lib/db";
 
-// TODO: später echte Website-Analyse (Crawl + LLM). Für die Demo gemockt.
+// Fetches the real website, extracts a brand profile via GPT, and persists it.
+// Degrades to a fixture inside extractBusiness() if the site can't be read.
 export async function POST(req: Request) {
   const { url } = await req.json().catch(() => ({ url: "" }));
-  const biz = (businesses as BusinessProfile[])[0];
-  // Reflect the typed URL into the name so the demo feels live.
-  const host = (() => { try { return new URL(url.startsWith("http") ? url : `https://${url}`).hostname; } catch { return ""; } })();
-  return NextResponse.json({ ...biz, description: host ? `${biz.description} (Quelle: ${host})` : biz.description });
+  const { profile, summary, sourceUrl } = await extractBusiness(String(url || ""));
+  try {
+    await saveBusiness(profile, { sourceUrl, summary });
+  } catch {
+    // Persisting is best-effort; never block the demo on a DB hiccup.
+  }
+  return NextResponse.json(profile);
 }

@@ -1,12 +1,16 @@
 import { NextResponse } from "next/server";
-import creators from "@/lib/fixtures/creators.json";
-import { CreatorProfile } from "@/lib/types";
+import { extractCreator } from "@/lib/extract";
+import { saveCreator } from "@/lib/db";
 
-// TODO: später echte Instagram/TikTok-Analyse. Für die Demo gemockt.
+// Fetches the public profile page, extracts a creator profile via GPT (bio +
+// 1-2 posts; estimates signals), and persists it so it joins the match pool.
 export async function POST(req: Request) {
   const { link } = await req.json().catch(() => ({ link: "" }));
-  const all = creators as CreatorProfile[];
-  const needle = String(link || "").toLowerCase();
-  const match = all.find((c) => needle.includes(c.handle.replace("@", "").toLowerCase())) ?? all[0];
-  return NextResponse.json(match);
+  const { profile, summary, sourceUrl } = await extractCreator(String(link || ""));
+  try {
+    await saveCreator(profile, { sourceUrl, summary });
+  } catch {
+    // Best-effort persistence.
+  }
+  return NextResponse.json(profile);
 }

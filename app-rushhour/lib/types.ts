@@ -25,6 +25,7 @@ export type CreatorProfile = {
   platform: Platform;
   followers: number;       // raw count for display
   avatarUrl: string;       // placeholder URL is fine
+  coverUrl?: string;       // 16:9 content/cover photo for the listing card
   topics: string[];        // ["food", "local", "lifestyle"]
   styleTags: string[];     // ["warm", "authentisch"]
   audienceCity: string;    // "Hamburg"

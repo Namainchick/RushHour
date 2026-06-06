@@ -1,13 +1,36 @@
 import { TrafficLight } from "@/lib/types";
 
-const DOT: Record<TrafficLight, string> = { green: "bg-emerald-500", yellow: "bg-amber-400", red: "bg-rose-500" };
-const RING: Record<TrafficLight, string> = { green: "ring-emerald-500/30", yellow: "ring-amber-400/30", red: "ring-rose-500/30" };
+const STAR: Record<TrafficLight, string> = {
+  green: "text-emerald-500",
+  yellow: "text-amber-400",
+  red: "text-rose-500",
+};
 
-export function ScoreBadge({ score, light }: { score: number; light: TrafficLight }) {
+const LABEL: Record<TrafficLight, string> = {
+  green: "Top-Match",
+  yellow: "Solider Match",
+  red: "Schwacher Match",
+};
+
+export function ScoreBadge({
+  score,
+  light,
+  size = "sm",
+}: {
+  score: number;
+  light: TrafficLight;
+  size?: "sm" | "lg";
+}) {
+  const lg = size === "lg";
   return (
-    <div className={`flex items-center gap-2 rounded-full bg-white px-3 py-1.5 ring-2 ${RING[light]}`}>
-      <span className={`h-2.5 w-2.5 rounded-full ${DOT[light]}`} />
-      <span className="text-sm font-semibold tabular-nums text-neutral-900">{score}</span>
+    <div
+      title={LABEL[light]}
+      className={`inline-flex items-center gap-1.5 rounded-full bg-white font-semibold tabular-nums text-ink shadow-pill ${
+        lg ? "px-3.5 py-2 text-base" : "px-3 py-1.5 text-sm"
+      }`}
+    >
+      <span className={`${STAR[light]} ${lg ? "text-lg" : "text-base"} leading-none`}>★</span>
+      {score}
     </div>
   );
 }

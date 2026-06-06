@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 import { Weights, BusinessProfile, MatchResult } from "./types";
 
-const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+export const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // Fixed weight profiles for the three UI presets (instant, no LLM call).
 const PRESET_WEIGHTS: Record<string, Weights> = {
@@ -15,7 +15,7 @@ function clamp01(n: unknown): number {
   return Math.max(0, Math.min(1, v));
 }
 
-function normalizeWeights(raw: any): Weights {
+function normalizeWeights(raw: Record<string, unknown> | null): Weights {
   return {
     localAudience: clamp01(raw?.localAudience),
     engagement: clamp01(raw?.engagement),
@@ -54,7 +54,7 @@ export async function goalToWeights(goalText: string, presetId?: string): Promis
 export async function generateReport(
   biz: BusinessProfile,
   result: MatchResult,
-  weights: Weights,
+  _weights: Weights,
 ): Promise<string[]> {
   const facts = result.contributions
     .map((c) => `${c.label}: Wert ${(c.value * 100).toFixed(0)}%, Wichtigkeit ${(c.weight * 100).toFixed(0)}%`)
