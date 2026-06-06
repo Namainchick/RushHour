@@ -2,10 +2,10 @@
   {
     "id": "biz_trattoria",
     "name": "Trattoria Bella",
-    "category": "Italienisches Restaurant",
+    "category": "Italian Restaurant",
     "city": "Hamburg",
     "neighborhood": "Eppendorf",
-    "styleTags": ["warm", "rustikal", "familiär", "authentisch"],
-    "description": "Familiengeführtes italienisches Restaurant in Hamburg-Eppendorf mit warmem, rustikalem Ambiente und hausgemachter Pasta."
+    "styleTags": ["warm", "rustic", "family-run", "authentic"],
+    "description": "Family-run Italian restaurant in Hamburg-Eppendorf with a warm, rustic atmosphere and homemade pasta."
   }
 ]

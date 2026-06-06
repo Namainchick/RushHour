@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RushHour — Finde den Creator, der dein Ziel trifft",
+  title: "RushHour — Find the creator who hits your goal",
   description:
-    "RushHour matcht lokale Geschäfte mit Content-Creators. Keine endlose Suche — die KI sagt voraus, welche Zusammenarbeit funktioniert.",
+    "RushHour matches local businesses with content creators. No endless searching — the AI predicts which collaboration will work.",
 };
 
 export default function RootLayout({
@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="de"
+      lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-white text-ink">

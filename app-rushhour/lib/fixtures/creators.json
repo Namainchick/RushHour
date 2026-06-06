@@ -7,7 +7,7 @@
     "avatarUrl": "https://i.pravatar.cc/150?img=47",
     "coverUrl": "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=80&auto=format&fit=crop",
     "topics": ["food", "local", "lifestyle"],
-    "styleTags": ["warm", "authentisch", "cozy"],
+    "styleTags": ["warm", "authentic", "cozy"],
     "audienceCity": "Hamburg",
     "engagementRate": 0.082,
     "signals": { "localShare": 0.71, "engagement": 0.9, "reach": 0.25 }
@@ -33,7 +33,7 @@
     "avatarUrl": "https://i.pravatar.cc/150?img=33",
     "coverUrl": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&q=80&auto=format&fit=crop",
     "topics": ["lifestyle", "city", "food"],
-    "styleTags": ["modern", "energetisch", "urban"],
+    "styleTags": ["modern", "energetic", "urban"],
     "audienceCity": "Hamburg",
     "engagementRate": 0.054,
     "signals": { "localShare": 0.55, "engagement": 0.7, "reach": 0.55 }
@@ -46,8 +46,8 @@
     "avatarUrl": "https://i.pravatar.cc/150?img=20",
     "coverUrl": "https://images.unsplash.com/photo-1473093226795-af9932fe5856?w=800&q=80&auto=format&fit=crop",
     "topics": ["food", "recipes", "italian"],
-    "styleTags": ["warm", "rustikal", "authentisch"],
-    "audienceCity": "München",
+    "styleTags": ["warm", "rustic", "authentic"],
+    "audienceCity": "Munich",
     "engagementRate": 0.031,
     "signals": { "localShare": 0.12, "engagement": 0.55, "reach": 0.8 }
   }

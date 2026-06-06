@@ -19,7 +19,7 @@ const creators = creatorsData as CreatorProfile[];
 function Stars({ value }: { value: number }) {
   const full = Math.round(value);
   return (
-    <span className="text-rausch" aria-label={`${value} von 5 Sternen`}>
+    <span className="text-rausch" aria-label={`${value} of 5 stars`}>
       {"★★★★★".slice(0, full)}
       <span className="text-line">{"★★★★★".slice(full)}</span>
     </span>
@@ -66,9 +66,9 @@ export default function CreatorProfilePage() {
   if (!creator) {
     return (
       <main className="mx-auto max-w-2xl px-5 py-24 text-center">
-        <h1 className="text-2xl font-bold text-ink">Creator nicht gefunden</h1>
+        <h1 className="text-2xl font-bold text-ink">Creator not found</h1>
         <Link href="/" className="mt-4 inline-block font-semibold text-rausch">
-          ← Zurück zur Suche
+          ← Back to search
         </Link>
       </main>
     );
@@ -90,7 +90,7 @@ export default function CreatorProfilePage() {
         light: matchResult?.light,
         priceFrom: detail?.priceFrom,
         status: "angefragt",
-        createdAtLabel: new Date().toLocaleDateString("de-DE", { day: "numeric", month: "long" }),
+        createdAtLabel: new Date().toLocaleDateString("en-US", { day: "numeric", month: "long" }),
         businessName: getMatchContext()?.business.name,
       });
       setBooked(true);
@@ -100,7 +100,7 @@ export default function CreatorProfilePage() {
   return (
     <main className="mx-auto max-w-5xl px-5 pt-6 pb-24">
       <button onClick={() => router.back()} className="text-sm font-medium text-muted hover:text-ink">
-        ← Zurück zu den Matches
+        ← Back to matches
       </button>
 
       {/* Title */}
@@ -112,12 +112,12 @@ export default function CreatorProfilePage() {
           <>
             <span className="font-semibold">★ {detail.rating.toFixed(2)}</span>
             <span className="text-muted">·</span>
-            <span className="underline">{detail.reviewsCount} Bewertungen</span>
+            <span className="underline">{detail.reviewsCount} reviews</span>
             <span className="text-muted">·</span>
           </>
         )}
         <span className="text-muted">
-          {creator.audienceCity} · {creator.followers.toLocaleString("de-DE")} Follower
+          {creator.audienceCity} · {creator.followers.toLocaleString("en-US")} followers
         </span>
       </div>
 
@@ -148,7 +148,7 @@ export default function CreatorProfilePage() {
               <div className="text-sm text-muted">
                 {creator.platform === "tiktok" ? "TikTok" : "Instagram"} · Engagement{" "}
                 {(creator.engagementRate * 100).toFixed(1)}%
-                {detail ? ` · ${detail.responseRate}% Antwortrate` : ""}
+                {detail ? ` · ${detail.responseRate}% response rate` : ""}
               </div>
             </div>
           </div>
@@ -170,7 +170,7 @@ export default function CreatorProfilePage() {
           {/* Bio */}
           {detail && (
             <div className="border-b border-line/70 py-6">
-              <h2 className="text-xl font-bold text-ink">Über {creator.handle}</h2>
+              <h2 className="text-xl font-bold text-ink">About {creator.handle}</h2>
               <p className="mt-3 leading-relaxed text-muted">{detail.bio}</p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {creator.topics.map((t) => (
@@ -187,7 +187,7 @@ export default function CreatorProfilePage() {
             <div className="border-b border-line/70 py-6">
               <div className="flex items-center gap-2">
                 <span className="grid h-7 w-7 place-items-center rounded-full bg-rausch text-sm text-white">◆</span>
-                <h2 className="text-xl font-bold text-ink">Warum dieser Match</h2>
+                <h2 className="text-xl font-bold text-ink">Why this match</h2>
                 <span className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-sm font-semibold text-ink shadow-pill">
                   <span
                     className={
@@ -212,7 +212,7 @@ export default function CreatorProfilePage() {
 
               <div className="mt-5 rounded-2xl bg-cloud p-4">
                 {bullets === null ? (
-                  <div className="text-sm text-muted">KI analysiert den Fit…</div>
+                  <div className="text-sm text-muted">AI is analyzing the fit…</div>
                 ) : (
                   <ul className="space-y-2 text-sm text-ink">
                     {bullets.map((b, i) => (
@@ -231,7 +231,7 @@ export default function CreatorProfilePage() {
           {detail && (
             <div className="py-6">
               <h2 className="flex items-center gap-2 text-xl font-bold text-ink">
-                <Stars value={detail.rating} /> {detail.rating.toFixed(2)} · {detail.reviewsCount} Bewertungen
+                <Stars value={detail.rating} /> {detail.rating.toFixed(2)} · {detail.reviewsCount} reviews
               </h2>
               <div className="mt-5 grid gap-5 sm:grid-cols-2">
                 {detail.reviews.map((rv, i) => (
@@ -263,17 +263,17 @@ export default function CreatorProfilePage() {
               <div>
                 {detail && (
                   <span className="text-2xl font-bold text-ink">
-                    ab {detail.priceFrom.toLocaleString("de-DE")} €
+                    from €{detail.priceFrom.toLocaleString("en-US")}
                   </span>
                 )}
-                <span className="text-sm text-muted"> / Kollaboration</span>
+                <span className="text-sm text-muted"> / collaboration</span>
               </div>
               {detail && <span className="text-sm font-semibold text-ink">★ {detail.rating.toFixed(2)}</span>}
             </div>
 
             {matchResult && (
               <div className="mt-4 flex items-center justify-between rounded-xl bg-cloud px-4 py-3 text-sm">
-                <span className="text-muted">Dein Match-Score</span>
+                <span className="text-muted">Your match score</span>
                 <span className="font-bold text-ink">{matchResult.score}/100</span>
               </div>
             )}
@@ -286,7 +286,7 @@ export default function CreatorProfilePage() {
                   : "bg-rausch text-white hover:bg-rausch-dark"
               }`}
             >
-              {booked ? "✓ Angefragt — in Reservierungen" : "Kollaboration anfragen"}
+              {booked ? "✓ Requested — in reservations" : "Request collaboration"}
             </button>
 
             {booked ? (
@@ -294,10 +294,10 @@ export default function CreatorProfilePage() {
                 href="/reservations"
                 className="mt-3 block text-center text-sm font-medium text-rausch hover:underline"
               >
-                Zu deinen Reservierungen →
+                Go to your reservations →
               </Link>
             ) : (
-              <p className="mt-3 text-center text-xs text-muted">Du wirst noch nicht belastet.</p>
+              <p className="mt-3 text-center text-xs text-muted">You won't be charged yet.</p>
             )}
           </div>
         </aside>

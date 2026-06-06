@@ -24,15 +24,15 @@ function normalizeWeights(raw: Record<string, unknown> | null): Weights {
   };
 }
 
-const SYSTEM_WEIGHTS = `Du bist die Matching-Engine einer Plattform, die lokale Geschäfte mit Content-Creators verbindet.
-Der Nutzer beschreibt sein Marketing-Ziel. Übersetze das Ziel in Gewichte (jeweils 0.0 bis 1.0) für diese vier Signale:
-- localAudience: wie wichtig ist eine Zielgruppe, die lokal in der Nähe des Geschäfts wohnt.
-- engagement: wie wichtig ist echtes, hohes Engagement (statt nur Reichweite).
-- styleMatch: wie wichtig ist, dass der Bild-/Markenstil des Creators zum Geschäft passt.
-- reach: wie wichtig ist reine Reichweite / hohe Follower-Zahl.
-Antworte NUR mit JSON: {"localAudience":number,"engagement":number,"styleMatch":number,"reach":number}.
-Beispiel "mehr Laufkundschaft aus der Nachbarschaft": {"localAudience":0.9,"engagement":0.8,"styleMatch":0.4,"reach":0.1}.
-Beispiel "deutschlandweit bekannt werden": {"localAudience":0.1,"engagement":0.4,"styleMatch":0.4,"reach":0.95}.`;
+const SYSTEM_WEIGHTS = `You are the matching engine of a platform that connects local businesses with content creators.
+The user describes their marketing goal. Translate the goal into weights (each 0.0 to 1.0) for these four signals:
+- localAudience: how important it is that the audience lives locally near the business.
+- engagement: how important real, high engagement is (rather than just reach).
+- styleMatch: how important it is that the creator's visual/brand style matches the business.
+- reach: how important pure reach / high follower count is.
+Respond ONLY with JSON: {"localAudience":number,"engagement":number,"styleMatch":number,"reach":number}.
+Example "more walk-in customers from the neighborhood": {"localAudience":0.9,"engagement":0.8,"styleMatch":0.4,"reach":0.1}.
+Example "become known nationwide": {"localAudience":0.1,"engagement":0.4,"styleMatch":0.4,"reach":0.95}.`;
 
 export async function goalToWeights(goalText: string, presetId?: string): Promise<Weights> {
   if (presetId && PRESET_WEIGHTS[presetId]) return PRESET_WEIGHTS[presetId];
@@ -42,7 +42,7 @@ export async function goalToWeights(goalText: string, presetId?: string): Promis
       response_format: { type: "json_object" },
       messages: [
         { role: "system", content: SYSTEM_WEIGHTS },
-        { role: "user", content: goalText || "mehr Gäste aus der Nachbarschaft" },
+        { role: "user", content: goalText || "more guests from the neighborhood" },
       ],
     });
     return normalizeWeights(JSON.parse(res.choices[0].message.content || "{}"));
@@ -57,13 +57,13 @@ export async function generateReport(
   _weights: Weights,
 ): Promise<string[]> {
   const facts = result.contributions
-    .map((c) => `${c.label}: Wert ${(c.value * 100).toFixed(0)}%, Wichtigkeit ${(c.weight * 100).toFixed(0)}%`)
+    .map((c) => `${c.label}: value ${(c.value * 100).toFixed(0)}%, importance ${(c.weight * 100).toFixed(0)}%`)
     .join("; ");
-  const prompt = `Geschäft: ${biz.name} (${biz.category}, ${biz.city}). Ziel-Gewichte und Creator-Werte: ${facts}.
-Creator: ${result.creator.handle}, ${result.creator.followers} Follower, Engagement ${(result.creator.engagementRate * 100).toFixed(1)}%, Zielgruppe in ${result.creator.audienceCity}.
+  const prompt = `Business: ${biz.name} (${biz.category}, ${biz.city}). Goal weights and creator values: ${facts}.
+Creator: ${result.creator.handle}, ${result.creator.followers} followers, engagement ${(result.creator.engagementRate * 100).toFixed(1)}%, audience in ${result.creator.audienceCity}.
 Score: ${result.score}/100.
-Schreibe 3 kurze, konkrete deutsche Stichpunkte, warum dieser Creator zum Ziel des Geschäfts passt (oder nicht). Nenne Zahlen. Kein Marketing-Geschwurbel.
-Antworte NUR mit JSON: {"bullets": ["...","...","..."]}.`;
+Write 3 short, concrete English bullet points explaining why this creator fits the business's goal (or not). Cite numbers. No marketing fluff.
+Respond ONLY with JSON: {"bullets": ["...","...","..."]}.`;
   try {
     const res = await client.chat.completions.create({
       model: "gpt-4o-mini",

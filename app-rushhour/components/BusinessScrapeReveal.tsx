@@ -35,10 +35,10 @@ export function BusinessScrapeReveal({
 
   const host = hostOf(data?.sourceUrl || url);
   const steps = [
-    { label: `Website ${host || "aufrufen"} abrufen`, icon: "🌐" },
-    { label: "Inhalte & Meta-Daten lesen", icon: "📄" },
-    { label: "Marke mit KI verstehen", icon: "✨" },
-    { label: mock ? "Beispieldaten geladen" : "Profil in Supabase gespeichert", icon: mock ? "📦" : "🗄️" },
+    { label: `Fetching website ${host || "open"}`, icon: "🌐" },
+    { label: "Reading content & metadata", icon: "📄" },
+    { label: "Understanding the brand with AI", icon: "✨" },
+    { label: mock ? "Sample data loaded" : "Profile saved to Supabase", icon: mock ? "📦" : "🗄️" },
   ];
 
   // Light up the checklist one step at a time.
@@ -55,7 +55,7 @@ export function BusinessScrapeReveal({
       <div className="rounded-3xl bg-white p-6 shadow-card ring-1 ring-line/70">
         <div className="flex items-center gap-2">
           <span className="grid h-8 w-8 place-items-center rounded-full bg-rausch text-white">◆</span>
-          <span className="font-semibold text-ink">Deine Website wird analysiert…</span>
+          <span className="font-semibold text-ink">Analyzing your website…</span>
         </div>
         <div className="mt-5 space-y-3">
           {steps.map((s, i) => {
@@ -99,10 +99,10 @@ export function BusinessScrapeReveal({
   return (
     <div className="animate-rise rounded-3xl bg-white p-6 shadow-card ring-1 ring-line/70">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-lg font-bold text-ink">Das haben wir von deiner Website gelesen</h2>
+        <h2 className="text-lg font-bold text-ink">Here&apos;s what we read from your website</h2>
         <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
           <span className="h-2 w-2 rounded-full bg-emerald-500" />
-          {mock ? "Beispieldaten" : "Gespeichert"}
+          {mock ? "Sample data" : "Saved"}
         </span>
       </div>
 
@@ -119,19 +119,19 @@ export function BusinessScrapeReveal({
 
       {data!.summary && (
         <div className="mt-4 rounded-2xl bg-rausch/5 p-4 text-sm leading-relaxed text-ink">
-          <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-rausch">KI-Zusammenfassung</div>
+          <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-rausch">AI summary</div>
           {data!.summary}
         </div>
       )}
 
       <div className="mt-4">
         <Field label="Name">{b.name}</Field>
-        <Field label="Kategorie">{b.category}</Field>
-        <Field label="Standort">
+        <Field label="Category">{b.category}</Field>
+        <Field label="Location">
           {b.city}
           {b.neighborhood ? ` · ${b.neighborhood}` : ""}
         </Field>
-        <Field label="Marken-Stil">
+        <Field label="Brand style">
           <div className="flex flex-wrap gap-1.5">
             {b.styleTags.map((t) => (
               <span key={t} className="rounded-full bg-cloud px-3 py-1 text-xs font-medium text-ink">
@@ -140,7 +140,7 @@ export function BusinessScrapeReveal({
             ))}
           </div>
         </Field>
-        <Field label="Beschreibung">
+        <Field label="Description">
           <span className="text-sm text-muted">{b.description}</span>
         </Field>
       </div>
@@ -149,7 +149,7 @@ export function BusinessScrapeReveal({
         onClick={onContinue}
         className="mt-6 w-full rounded-xl bg-rausch py-3.5 font-semibold text-white transition hover:bg-rausch-dark"
       >
-        Stimmt — weiter zum Ziel →
+        Looks right — continue to goal →
       </button>
     </div>
   );

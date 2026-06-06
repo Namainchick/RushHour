@@ -27,16 +27,16 @@ export function TopNav() {
           RushHour
         </Link>
         <div className="flex items-center gap-1 text-sm font-medium">
-          {link("/", "Für Geschäfte", true)}
-          {link("/creator", "Für Creators")}
-          {link("/data", "Daten")}
+          {link("/", "For Businesses", true)}
+          {link("/creator", "For Creators")}
+          {link("/data", "Data")}
           <Link
             href="/reservations"
             className={`relative rounded-full px-4 py-2 transition ${
               pathname.startsWith("/reservations") ? "bg-cloud text-ink" : "text-ink hover:bg-cloud"
             }`}
           >
-            Reservierungen
+            Reservations
             {reservations.length > 0 && (
               <span className="ml-1.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-rausch px-1.5 text-xs font-bold text-white">
                 {reservations.length}

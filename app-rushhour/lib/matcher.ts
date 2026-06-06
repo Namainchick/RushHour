@@ -14,17 +14,17 @@ function jaccard(a: string[], b: string[]): number {
 }
 
 const LABELS: Record<keyof Weights, string> = {
-  localAudience: "Lokale Zielgruppe",
-  engagement: "Echtes Engagement",
-  styleMatch: "Stil-Match",
-  reach: "Reichweite",
+  localAudience: "Local Audience",
+  engagement: "Real Engagement",
+  styleMatch: "Style Match",
+  reach: "Reach",
 };
 
 const PHRASES: Record<keyof Weights, string> = {
-  localAudience: "starke lokale Zielgruppe",
-  engagement: "hohes echtes Engagement",
-  styleMatch: "passt zum Markenstil",
-  reach: "große Reichweite",
+  localAudience: "strong local audience",
+  engagement: "high real engagement",
+  styleMatch: "matches the brand style",
+  reach: "large reach",
 };
 
 export function computeFeatures(biz: BusinessProfile, c: CreatorProfile): Record<keyof Weights, number> {
@@ -40,7 +40,7 @@ export function computeFeatures(biz: BusinessProfile, c: CreatorProfile): Record
 function buildShortReason(contribs: FeatureContribution[]): string {
   const ranked = [...contribs].sort((a, b) => b.weight * b.value - a.weight * a.value);
   const top = ranked.slice(0, 2).filter((c) => c.weight * c.value > 0.05);
-  if (top.length === 0) return "Solider Allround-Match.";
+  if (top.length === 0) return "Solid all-round match.";
   const text = top.map((c) => PHRASES[c.key]).join(", ");
   return text.charAt(0).toUpperCase() + text.slice(1) + ".";
 }

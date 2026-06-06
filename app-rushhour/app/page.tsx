@@ -57,16 +57,16 @@ export default function Home() {
       {step === "intake" && (
         <section className="mx-auto flex max-w-3xl flex-col items-center px-5 pt-20 pb-24 text-center">
           <span className="rounded-full bg-rausch/10 px-4 py-1.5 text-sm font-semibold text-rausch">
-            KI-Matching für lokale Marken
+            AI matching for local brands
           </span>
           <h1 className="mt-6 text-4xl font-extrabold leading-[1.1] tracking-tight text-ink sm:text-6xl">
-            Finde den Creator,
+            Find the creator
             <br />
-            der dein <span className="text-rausch">Ziel</span> trifft.
+            who hits your <span className="text-rausch">goal</span>.
           </h1>
           <p className="mt-5 max-w-xl text-lg text-muted">
-            Keine endlose Suche. Gib deine Website ein — unsere KI sagt voraus, welche
-            Zusammenarbeit für dich wirklich funktioniert.
+            No endless searching. Enter your website — our AI predicts which
+            collaboration will really work for you.
           </p>
 
           <div className="mt-9 flex w-full max-w-xl items-center gap-2 rounded-full bg-white p-2 shadow-pill ring-1 ring-line focus-within:ring-2 focus-within:ring-rausch">
@@ -77,8 +77,8 @@ export default function Home() {
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && submitUrl()}
-              placeholder="deine-website.de"
-              aria-label="Website deines Geschäfts"
+              placeholder="your-website.com"
+              aria-label="Your business website"
               className="flex-1 bg-transparent px-1 py-2 text-base outline-none placeholder:text-muted"
             />
             <button
@@ -86,10 +86,10 @@ export default function Home() {
               disabled={loading}
               className="inline-flex items-center gap-2 rounded-full bg-rausch px-6 py-3 font-semibold text-white transition hover:bg-rausch-dark disabled:opacity-50"
             >
-              {loading ? "Analysiere…" : "Matches finden"}
+              {loading ? "Analyzing…" : "Find matches"}
             </button>
           </div>
-          <p className="mt-4 text-sm text-muted">So einfach wie ein Airbnb-Inserat — in 30 Sekunden.</p>
+          <p className="mt-4 text-sm text-muted">As easy as an Airbnb listing — in 30 seconds.</p>
         </section>
       )}
 
@@ -97,7 +97,7 @@ export default function Home() {
       {step === "scraping" && (
         <section className="mx-auto max-w-xl px-5 pt-10 pb-24">
           <button onClick={() => setStep("intake")} className="text-sm font-medium text-muted hover:text-ink">
-            ← Zurück
+            ← Back
           </button>
           <div className="mt-4">
             <BusinessScrapeReveal
@@ -113,7 +113,7 @@ export default function Home() {
       {step === "goal" && business && (
         <section className="mx-auto max-w-xl px-5 pt-10 pb-24">
           <button onClick={() => setStep("intake")} className="text-sm font-medium text-muted hover:text-ink">
-            ← Zurück
+            ← Back
           </button>
           <div className="mt-4 rounded-3xl bg-white p-5 shadow-card ring-1 ring-line/70">
             <div className="flex items-center gap-2 border-b border-line/70 pb-3">
@@ -132,13 +132,13 @@ export default function Home() {
       {step === "results" && (
         <section className="mx-auto max-w-6xl px-5 pt-10 pb-24">
           <button onClick={() => setStep("goal")} className="text-sm font-medium text-muted hover:text-ink">
-            ← Ziel ändern
+            ← Change goal
           </button>
           <div className="mt-3">
             <h1 className="text-2xl font-bold text-ink sm:text-3xl">
-              Top-Matches{business ? ` für ${business.name}` : ""}
+              Top matches{business ? ` for ${business.name}` : ""}
             </h1>
-            <p className="mt-1 text-muted">Von der KI nach Erfolgswahrscheinlichkeit sortiert.</p>
+            <p className="mt-1 text-muted">Sorted by the AI by likelihood of success.</p>
           </div>
 
           {/* Goal filter pills */}

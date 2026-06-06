@@ -21,7 +21,7 @@ export async function extractBusiness(url: string): Promise<ExtractBusinessResul
     return {
       profile: MOCK_BUSINESS,
       summary:
-        "Familiengeführtes italienisches Restaurant in Hamburg-Eppendorf mit warmem, rustikalem Ambiente und hausgemachter Pasta. Spricht lokale Gäste an, die authentische Küche schätzen.",
+        "Family-run Italian restaurant in Hamburg-Eppendorf with a warm, rustic atmosphere and homemade pasta. Appeals to local guests who value authentic cuisine.",
       sourceUrl: "https://trattoria-bella.de",
     };
   }
@@ -32,7 +32,7 @@ export async function extractCreator(link: string): Promise<ExtractCreatorResult
     return {
       profile: MOCK_CREATOR,
       summary:
-        "Hamburger Food-Creatorin mit warmem, authentischem Stil. Stark lokale Community (71 % aus Hamburg) und überdurchschnittliches Engagement.",
+        "Hamburg food creator with a warm, authentic style. Strongly local community (71% from Hamburg) and above-average engagement.",
       sourceUrl: "https://instagram.com/lisa_hamburg_eats",
     };
   }

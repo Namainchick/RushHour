@@ -17,15 +17,15 @@ Lokale Geschäfte verbrennen Zeit und Budget, um Creator manuell auf Instagram, 
 ## Wie es funktioniert
 
 ```
-Website-URL ──► extract-business ──► fetch HTML + GPT ──► Brand-Profil ──► Supabase
-Creator-Link ─► extract-creator ──► fetch + GPT (Bio/Posts) ─► Profil ──► Supabase
+Website-URL ──► extract-business ──► fetch HTML + Qwen ──► Brand-Profil ──► Supabase
+Creator-Link ─► extract-creator ──► fetch + Qwen (Bio/Posts) ─► Profil ──► Supabase
 Ziel ────────► match ──► goalToWeights (KI/Preset) ──► alle Creator aus Supabase ──► Ranking
-Auswahl ─────► report ──► GPT ──► konkrete Begründung (3 Stichpunkte)
+Auswahl ─────► report ──► Qwen ──► konkrete Begründung (3 Stichpunkte)
 ```
 
-Das Prinzip: **Extraktion und Begründung laufen über echtes GPT, das Scoring ist deterministische Mathematik, die Daten liegen in Supabase.**
+Das Prinzip: **Extraktion und Begründung laufen über Qwen, das Scoring ist deterministische Mathematik, die Daten liegen in Supabase.**
 
-- **Goal → Weights:** Ein Marketing-Ziel wird in vier Gewichte übersetzt — `localAudience`, `engagement`, `styleMatch`, `reach` (Presets sofort, Freitext via GPT).
+- **Goal → Weights:** Ein Marketing-Ziel wird in vier Gewichte übersetzt — `localAudience`, `engagement`, `styleMatch`, `reach` (Presets sofort, Freitext via Qwen).
 - **Scoring:** Gewichtete Summe über vier Features pro Creator (lokaler Anteil mit Stadt-Bonus, Engagement, Jaccard-Stil-Match, Reichweite), normiert auf 0–100 mit Ampel (grün ≥75, gelb ≥50, sonst rot).
 - **Wachsender Pool:** Jeder neu extrahierte Creator wird gespeichert und vergrößert die Match-Basis.
 
@@ -33,7 +33,7 @@ Das Prinzip: **Extraktion und Begründung laufen über echtes GPT, das Scoring i
 
 - **Next.js 16** (App Router, Turbopack) · **React 19** · **TypeScript**
 - **Tailwind CSS v4**
-- **OpenAI** (`gpt-4o-mini`) — Extraktion, Ziel-Gewichtung, Report
+- **Qwen** — Extraktion, Ziel-Gewichtung, Report
 - **Supabase** (Postgres) — Persistenz für Geschäfte und Creator
 - **Vercel** — Hosting (Root Directory = `app-rushhour`)
 
@@ -45,15 +45,15 @@ app-rushhour/
 │  ├─ page.tsx                 # Business-Flow: URL → Ziel-Chat → Ergebnisse
 │  ├─ creator/                 # Creator-Onboarding
 │  └─ api/
-│     ├─ extract-business/     # Website → Brand-Profil (fetch + GPT) + speichern
-│     ├─ extract-creator/      # Profil-Link → Creator-Profil (fetch + GPT) + speichern
+│     ├─ extract-business/     # Website → Brand-Profil (fetch + Qwen) + speichern
+│     ├─ extract-creator/      # Profil-Link → Creator-Profil (fetch + Qwen) + speichern
 │     ├─ match/                # Ziel → Gewichte → Ranking über Supabase-Pool
-│     └─ report/               # GPT-Begründung für einen Match
+│     └─ report/               # Qwen-Begründung für einen Match
 ├─ lib/
 │  ├─ types.ts                 # Shared Contract (Frontend ↔ Backend)
 │  ├─ matcher.ts               # Deterministisches Scoring
-│  ├─ llm.ts                   # OpenAI: goalToWeights + generateReport
-│  ├─ extract.ts               # Fetch + GPT-Extraktion (mit Fallbacks)
+│  ├─ llm.ts                   # Qwen: goalToWeights + generateReport
+│  ├─ extract.ts               # Fetch + Qwen-Extraktion (mit Fallbacks)
 │  ├─ supabase.ts / db.ts      # Supabase-Client + Row↔Type-Mapper
 │  ├─ mock-mode.ts             # Laufzeit-Schalter Mock/Real
 │  └─ fixtures/                # Beispiel-Daten + Seed-Quelle
@@ -90,7 +90,7 @@ npm run build    # Production-Build
 
 Oben rechts in der Navigation gibt es einen **Live-Toggle**:
 
-- **Real** (Standard): echte Extraktion + Supabase + OpenAI.
+- **Real** (Standard): echte Extraktion + Supabase + Qwen.
 - **Mock**: lokale Beispieldaten, kein Netz — robust für Offline-Demos.
 
 Der Modus wird zur Laufzeit umgeschaltet (kein Neustart) und in `localStorage` gemerkt. Der Default kommt aus `NEXT_PUBLIC_USE_MOCK`.

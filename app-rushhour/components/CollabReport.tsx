@@ -26,9 +26,9 @@ export function CollabReport({ business, result, weights, onClose }: {
           {result.contributions.map((c) => <SignalBar key={c.key} label={c.label} value={c.value} />)}
         </div>
         <div className="mt-5">
-          <div className="text-sm font-medium text-neutral-900">Warum dieser Match:</div>
+          <div className="text-sm font-medium text-neutral-900">Why this match:</div>
           {bullets === null ? (
-            <div className="mt-2 text-sm text-neutral-400">KI analysiert…</div>
+            <div className="mt-2 text-sm text-neutral-400">AI is analyzing…</div>
           ) : (
             <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-neutral-600">
               {bullets.map((b, i) => <li key={i}>{b}</li>)}
@@ -36,7 +36,7 @@ export function CollabReport({ business, result, weights, onClose }: {
           )}
         </div>
         <button className="mt-6 w-full rounded-xl bg-neutral-900 py-3 text-sm font-medium text-white" onClick={onClose}>
-          Match anfragen
+          Request match
         </button>
       </div>
     </div>

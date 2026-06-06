@@ -9,7 +9,7 @@ export function ModeToggle() {
     <button
       type="button"
       onClick={() => setMock(!mock)}
-      title={mock ? "Mock-Modus: lokale Beispieldaten, kein Netz" : "Real-Modus: echte Extraktion + Supabase"}
+      title={mock ? "Mock mode: local sample data, offline" : "Real mode: live extraction + Supabase"}
       className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
         mock
           ? "border-amber-300 bg-amber-50 text-amber-700"

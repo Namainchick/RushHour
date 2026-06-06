@@ -40,7 +40,7 @@ export function CreatorCard({ result, onClick }: { result: MatchResult; onClick:
           <div className="min-w-0 flex-1">
             <div className="truncate font-semibold text-ink">{creator.handle}</div>
             <div className="truncate text-xs text-muted">
-              {creator.followers.toLocaleString("de-DE")} Follower · {creator.audienceCity}
+              {creator.followers.toLocaleString("en-US")} followers · {creator.audienceCity}
             </div>
           </div>
         </div>
@@ -54,7 +54,7 @@ export function CreatorCard({ result, onClick }: { result: MatchResult; onClick:
         <p className="mt-3 line-clamp-2 text-sm text-muted">{result.shortReason}</p>
 
         <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-rausch">
-          Details ansehen
+          View details
           <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
         </span>
       </div>

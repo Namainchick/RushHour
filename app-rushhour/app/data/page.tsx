@@ -15,7 +15,7 @@ function hostOf(url?: string | null): string {
 
 function fmtDate(iso: string): string {
   try {
-    return new Date(iso).toLocaleDateString("de-DE", { day: "2-digit", month: "short", year: "numeric" });
+    return new Date(iso).toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" });
   } catch {
     return "";
   }
@@ -62,14 +62,14 @@ export default function DataPage() {
     <main className="mx-auto max-w-6xl px-5 pt-12 pb-24">
       <div className="text-center">
         <span className="rounded-full bg-rausch/10 px-4 py-1.5 text-sm font-semibold text-rausch">
-          Datenbasis
+          Data
         </span>
         <h1 className="mt-5 text-3xl font-extrabold tracking-tight text-ink sm:text-5xl">
-          Was RushHour analysiert hat
+          What RushHour has analyzed
         </h1>
         <p className="mt-4 text-lg text-muted">
-          Jede eingegebene Website und jeder Creator-Link wird strukturiert extrahiert und gespeichert.
-          Der Creator-Pool wächst mit jeder Analyse — und macht das Matching besser.
+          Every website and creator link you enter is extracted in a structured way and stored.
+          The creator pool grows with every analysis — making the matching better.
         </p>
       </div>
 
@@ -77,27 +77,27 @@ export default function DataPage() {
       <div className="mt-8 grid grid-cols-2 gap-4 sm:max-w-md sm:mx-auto">
         <div className="rounded-2xl bg-white p-5 text-center shadow-card ring-1 ring-line/70">
           <div className="text-3xl font-extrabold text-ink">{loading ? "…" : businesses.length}</div>
-          <div className="mt-1 text-sm text-muted">Unternehmen</div>
+          <div className="mt-1 text-sm text-muted">Businesses</div>
         </div>
         <div className="rounded-2xl bg-white p-5 text-center shadow-card ring-1 ring-line/70">
           <div className="text-3xl font-extrabold text-ink">{loading ? "…" : creators.length}</div>
-          <div className="mt-1 text-sm text-muted">Creator-Accounts</div>
+          <div className="mt-1 text-sm text-muted">Creator accounts</div>
         </div>
       </div>
 
       {error && (
         <p className="mt-6 rounded-xl bg-red-50 p-3 text-center text-sm text-red-600">
-          Konnte Daten nicht laden: {error}
+          Couldn&apos;t load data: {error}
         </p>
       )}
 
       {/* businesses */}
       <section className="mt-14">
-        <h2 className="text-xl font-bold text-ink">Unternehmen (von Website gescraped)</h2>
+        <h2 className="text-xl font-bold text-ink">Businesses (scraped from website)</h2>
         <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {loading && <p className="text-sm text-muted">Lade…</p>}
+          {loading && <p className="text-sm text-muted">Loading…</p>}
           {!loading && businesses.length === 0 && (
-            <p className="text-sm text-muted">Noch keine Unternehmen analysiert.</p>
+            <p className="text-sm text-muted">No businesses analyzed yet.</p>
           )}
           {businesses.map((b) => (
             <div key={b.id} className="rounded-2xl bg-white p-5 shadow-card ring-1 ring-line/70">
@@ -137,11 +137,11 @@ export default function DataPage() {
 
       {/* creators */}
       <section className="mt-16">
-        <h2 className="text-xl font-bold text-ink">Creator-Accounts (von Profil gescraped)</h2>
+        <h2 className="text-xl font-bold text-ink">Creator accounts (scraped from profile)</h2>
         <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {loading && <p className="text-sm text-muted">Lade…</p>}
+          {loading && <p className="text-sm text-muted">Loading…</p>}
           {!loading && creators.length === 0 && (
-            <p className="text-sm text-muted">Noch keine Creator analysiert.</p>
+            <p className="text-sm text-muted">No creators analyzed yet.</p>
           )}
           {creators.map((c) => (
             <div key={c.id} className="rounded-2xl bg-white p-5 shadow-card ring-1 ring-line/70">
@@ -151,7 +151,7 @@ export default function DataPage() {
                 <div className="min-w-0 flex-1">
                   <div className="truncate font-semibold text-ink">{c.handle}</div>
                   <div className="text-xs text-muted">
-                    {c.followers.toLocaleString("de-DE")} Follower
+                    {c.followers.toLocaleString("en-US")} followers
                     {c.audienceCity ? ` · ${c.audienceCity}` : ""} · {c.platform}
                   </div>
                 </div>
@@ -175,9 +175,9 @@ export default function DataPage() {
                 </div>
               )}
               <div className="mt-4 space-y-2">
-                <Bar label="Lokale Zielgruppe" value={c.signals.localShare} />
+                <Bar label="Local Audience" value={c.signals.localShare} />
                 <Bar label="Engagement" value={c.signals.engagement} />
-                <Bar label="Reichweite" value={c.signals.reach} />
+                <Bar label="Reach" value={c.signals.reach} />
               </div>
             </div>
           ))}

@@ -7,9 +7,9 @@ const STAR: Record<TrafficLight, string> = {
 };
 
 const LABEL: Record<TrafficLight, string> = {
-  green: "Top-Match",
-  yellow: "Solider Match",
-  red: "Schwacher Match",
+  green: "Top match",
+  yellow: "Solid match",
+  red: "Weak match",
 };
 
 export function ScoreBadge({

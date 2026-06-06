@@ -71,14 +71,14 @@ async function fetchReadableText(url: string): Promise<string> {
   }
 }
 
-const SYSTEM_BUSINESS = `Du analysierst die Website eines lokalen Geschäfts und erzeugst ein strukturiertes Markenprofil.
-Antworte NUR mit JSON:
+const SYSTEM_BUSINESS = `You analyze the website of a local business and produce a structured brand profile.
+Respond ONLY with JSON:
 {"name":string,"category":string,"city":string,"neighborhood":string,"styleTags":string[],"description":string,"summary":string}
-- category: kurze deutsche Kategorie, z.B. "Italienisches Restaurant", "Fitnessstudio".
-- city/neighborhood: aus dem Text; wenn unbekannt, leer.
-- styleTags: 3-5 kurze deutsche Adjektive zum Marken-/Ambiente-Stil, z.B. "warm","rustikal","modern".
-- description: ein kurzer Absatz.
-- summary: 2-3 lesbare Sätze als Profil-Zusammenfassung.`;
+- category: short English category, e.g. "Italian Restaurant", "Gym".
+- city/neighborhood: from the text; if unknown, leave empty.
+- styleTags: 3-5 short English adjectives describing the brand/ambiance style, e.g. "warm","rustic","modern".
+- description: one short paragraph.
+- summary: 2-3 readable sentences as a profile summary.`;
 
 export async function extractBusiness(
   url: string,
@@ -89,7 +89,7 @@ export async function extractBusiness(
   const fallback = (businesses as BusinessProfile[])[0];
   if (!text) {
     return {
-      profile: { ...fallback, id: bizId(host), description: host ? `${fallback.description} (Quelle: ${host})` : fallback.description },
+      profile: { ...fallback, id: bizId(host), description: host ? `${fallback.description} (Source: ${host})` : fallback.description },
       sourceUrl,
     };
   }
@@ -118,17 +118,17 @@ export async function extractBusiness(
   }
 }
 
-const SYSTEM_CREATOR = `Du analysierst das öffentliche Profil eines Content-Creators (Bio + 1-2 Videos/Posts) und erzeugst ein strukturiertes Profil.
-Wenn echte Zahlen fehlen, SCHÄTZE plausibel aus Bio, Themen und Stil. Erfinde keine exakten Fakten, aber gib begründete Schätzungen.
-Antworte NUR mit JSON:
+const SYSTEM_CREATOR = `You analyze the public profile of a content creator (bio + 1-2 videos/posts) and produce a structured profile.
+If real numbers are missing, ESTIMATE plausibly from the bio, topics and style. Do not invent exact facts, but give reasoned estimates.
+Respond ONLY with JSON:
 {"platform":"instagram"|"tiktok","followers":number,"topics":string[],"styleTags":string[],"audienceCity":string,"engagementRate":number,"localShare":number,"engagement":number,"reach":number,"summary":string}
-- followers: ganze Zahl (Schätzung ok).
-- topics: 2-4 kurze englische/deutsche Schlagworte, z.B. "food","local".
-- styleTags: 2-4 kurze deutsche Stil-Adjektive.
-- audienceCity: vermutete Hauptstadt der Zielgruppe.
-- engagementRate: 0..1 (z.B. 0.05).
-- localShare/engagement/reach: jeweils 0..1 normalisiert (lokaler Anteil, Engagement-Qualität, Reichweiten-Skala).
-- summary: 2-3 lesbare Sätze.`;
+- followers: whole number (estimate is fine).
+- topics: 2-4 short English keywords, e.g. "food","local".
+- styleTags: 2-4 short English style adjectives.
+- audienceCity: the presumed main city of the audience.
+- engagementRate: 0..1 (e.g. 0.05).
+- localShare/engagement/reach: each normalized 0..1 (local share, engagement quality, reach scale).
+- summary: 2-3 readable sentences.`;
 
 export async function extractCreator(
   link: string,

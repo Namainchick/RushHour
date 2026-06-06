@@ -45,7 +45,7 @@ export type TrafficLight = "green" | "yellow" | "red";
 
 export type FeatureContribution = {
   key: keyof Weights;
-  label: string;   // German UI label, e.g. "Lokale Zielgruppe"
+  label: string;   // UI label, e.g. "Local Audience"
   value: number;   // 0..1 feature value for this creator+business
   weight: number;  // 0..1 applied weight
 };
@@ -80,7 +80,7 @@ export type ExtractCreatorResult = {
 export type GoalPreset = { id: string; label: string };
 
 export const GOAL_PRESETS: GoalPreset[] = [
-  { id: "local_traffic", label: "Mehr Gäste aus der Nachbarschaft" },
-  { id: "city_awareness", label: "Stadtweit bekannter werden" },
-  { id: "premium_image", label: "Premium-Image aufbauen" },
+  { id: "local_traffic", label: "More guests from the neighborhood" },
+  { id: "city_awareness", label: "Get known across the city" },
+  { id: "premium_image", label: "Build a premium image" },
 ];

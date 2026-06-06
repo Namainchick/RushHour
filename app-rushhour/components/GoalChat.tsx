@@ -9,36 +9,36 @@ type Question = { id: string; ai: string; chips: Chip[]; allowFreeText?: boolean
 const QUESTIONS: Question[] = [
   {
     id: "goal",
-    ai: "Damit ich die richtigen Creator finde: Was ist gerade dein wichtigstes Ziel?",
+    ai: "So I find the right creators: what's your most important goal right now?",
     chips: [
-      { label: "Mehr Gäste aus der Nachbarschaft", preset: "local_traffic" },
-      { label: "Stadtweit bekannter werden", preset: "city_awareness" },
-      { label: "Premium-Image aufbauen", preset: "premium_image" },
+      { label: "More guests from the neighborhood", preset: "local_traffic" },
+      { label: "Get known across the city", preset: "city_awareness" },
+      { label: "Build a premium image", preset: "premium_image" },
     ],
     allowFreeText: true,
   },
   {
     id: "radius",
-    ai: "Verstanden. Wie weit ist dein typischer Gast bereit zu kommen?",
-    chips: [{ label: "Nur das Viertel" }, { label: "Die ganze Stadt" }, { label: "Egal, Hauptsache Reichweite" }],
+    ai: "Got it. How far is your typical guest willing to travel?",
+    chips: [{ label: "Just the neighborhood" }, { label: "The whole city" }, { label: "Doesn't matter, just reach" }],
   },
   {
     id: "style",
-    ai: "Welcher Content-Stil passt zu euch?",
-    chips: [{ label: "Authentisch & gemütlich" }, { label: "Modern & clean" }, { label: "Premium & edel" }],
+    ai: "Which content style fits you?",
+    chips: [{ label: "Authentic & cozy" }, { label: "Modern & clean" }, { label: "Premium & upscale" }],
   },
   {
     id: "budget",
-    ai: "Letzte Frage: grobes Budget pro Kollaboration?",
-    chips: [{ label: "unter 200 €" }, { label: "200–500 €" }, { label: "über 500 €" }],
+    ai: "Last question: rough budget per collaboration?",
+    chips: [{ label: "under €200" }, { label: "€200–500" }, { label: "over €500" }],
   },
 ];
 
 const ANALYZE_STEPS = [
-  "Lokale Zielgruppe gewichten",
-  "Echtes Engagement prüfen",
-  "Stil-Match zur Marke berechnen",
-  "Kandidaten ranken",
+  "Weighting local audience",
+  "Checking real engagement",
+  "Computing style match to brand",
+  "Ranking candidates",
 ];
 
 export function GoalChat({
@@ -87,7 +87,7 @@ export function GoalChat({
   }
 
   async function runAnalyzing() {
-    await say("Perfekt — ich hab alles. Ich gewichte jetzt die Signale nach deinem Ziel und matche…");
+    await say("Perfect — I've got everything. Now I'm weighting the signals by your goal and matching…");
     setPhase("analyzing");
     for (let s = 1; s <= ANALYZE_STEPS.length; s++) {
       await sleep(520);
@@ -97,8 +97,8 @@ export function GoalChat({
     const a = answers.current;
     const goalText = [
       a.goal,
-      a.radius && `Einzugsgebiet: ${a.radius}`,
-      a.style && `Stil: ${a.style}`,
+      a.radius && `Catchment area: ${a.radius}`,
+      a.style && `Style: ${a.style}`,
       a.budget && `Budget: ${a.budget}`,
     ]
       .filter(Boolean)
@@ -111,10 +111,10 @@ export function GoalChat({
     started.current = true;
     runIntro();
     async function runIntro() {
-      await say(<>Hi! Ich bin dein RushHour-Matchmaker. 👋</>);
+      await say(<>Hi! I&apos;m your RushHour matchmaker. 👋</>);
       await say(
         <div>
-          <div className="mb-1 text-xs uppercase tracking-wide text-neutral-400">Von eurer Website erkannt</div>
+          <div className="mb-1 text-xs uppercase tracking-wide text-neutral-400">Detected from your website</div>
           <div className="font-semibold text-neutral-900">{business.name}</div>
           <div className="text-sm text-neutral-600">
             {business.category} · {business.city}
@@ -226,11 +226,11 @@ export function GoalChat({
               <input
                 value={draft}
                 onChange={(e) => setDraft(e.target.value)}
-                placeholder="…oder schreib dein Ziel selbst"
+                placeholder="…or write your own goal"
                 className="flex-1 rounded-xl border border-line px-4 py-2.5 text-sm outline-none focus:border-rausch"
               />
               <button type="submit" className="rounded-xl bg-rausch px-4 py-2.5 text-sm font-medium text-white transition hover:bg-rausch-dark">
-                Senden
+                Send
               </button>
             </form>
           )}
