@@ -49,11 +49,11 @@ Avoid vague "everyone" markets; choose a wedge such as restaurants, hotels, gyms
 
 Pitch must cover problem, customer, why now, solution, differentiation, evidence, and next step.
 
-Read [01-hackathon-master-context.md](docs/docs_md/01-hackathon-master-context.md) for full product and strategy context.
+Core docs: [Master Context](docs/docs_md/01-hackathon-master-context.md), [Logistics](docs/docs_md/02-founder-hackathon-logistics.md), [Judging](docs/docs_md/03-founder-hackathon-judging-scoring-guide.md), [Team](docs/docs_md/04-team.md).
 
-Read [02-founder-hackathon-logistics.md](docs/docs_md/02-founder-hackathon-logistics.md) for submission requirements and event constraints.
+Respect team ownership: pitch, MVP, and demo questions go to Yaw or Nam; marketing, competitor, scouting, validation, and pitch evidence go to Jusuf or Kobi.
 
-Read [03-founder-hackathon-judging-scoring-guide.md](docs/docs_md/03-founder-hackathon-judging-scoring-guide.md) for scoring criteria.
+If a request falls outside a person's scope or changes another owner's area, say so and suggest checking with that owner before acting.
 
 Build the smallest demo that proves prediction beats discovery.
 
