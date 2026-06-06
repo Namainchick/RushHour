@@ -1,13 +1,14 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { BusinessProfile, MatchResult, Weights, GOAL_PRESETS } from "@/lib/types";
+import { BusinessProfile, ExtractBusinessResult, MatchResult, Weights, GOAL_PRESETS } from "@/lib/types";
 import { extractBusiness, match } from "@/lib/api-client";
 import { CreatorCard } from "@/components/CreatorCard";
 import { GoalChat } from "@/components/GoalChat";
+import { BusinessScrapeReveal } from "@/components/BusinessScrapeReveal";
 import { saveMatchContext } from "@/lib/reservations";
 
-type Step = "intake" | "goal" | "results";
+type Step = "intake" | "scraping" | "goal" | "results";
 
 const GOAL_ICON: Record<string, string> = {
   local_traffic: "📍",
@@ -20,17 +21,22 @@ export default function Home() {
   const [step, setStep] = useState<Step>("intake");
   const [url, setUrl] = useState("");
   const [business, setBusiness] = useState<BusinessProfile | null>(null);
+  const [scrape, setScrape] = useState<ExtractBusinessResult | null>(null);
   const [presetId, setPresetId] = useState<string>("local_traffic");
   const [results, setResults] = useState<MatchResult[]>([]);
   const [, setWeights] = useState<Weights | null>(null);
   const [loading, setLoading] = useState(false);
 
   async function submitUrl() {
-    setLoading(true);
-    const biz = await extractBusiness(url || "trattoria-bella.de");
-    setBusiness(biz);
-    setLoading(false);
-    setStep("goal");
+    setScrape(null);
+    setStep("scraping");
+    try {
+      const r = await extractBusiness(url || "trattoria-bella.de");
+      setBusiness(r.profile);
+      setScrape(r);
+    } catch {
+      setStep("intake"); // route degrades server-side; this only fires on a hard network error
+    }
   }
 
   async function runMatch(preset: string, goalText = "") {
@@ -84,6 +90,22 @@ export default function Home() {
             </button>
           </div>
           <p className="mt-4 text-sm text-muted">So einfach wie ein Airbnb-Inserat — in 30 Sekunden.</p>
+        </section>
+      )}
+
+      {/* ---------- SCRAPING REVEAL ---------- */}
+      {step === "scraping" && (
+        <section className="mx-auto max-w-xl px-5 pt-10 pb-24">
+          <button onClick={() => setStep("intake")} className="text-sm font-medium text-muted hover:text-ink">
+            ← Zurück
+          </button>
+          <div className="mt-4">
+            <BusinessScrapeReveal
+              url={url || "trattoria-bella.de"}
+              data={scrape}
+              onContinue={() => setStep("goal")}
+            />
+          </div>
         </section>
       )}
 

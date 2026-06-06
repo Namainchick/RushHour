@@ -12,5 +12,5 @@ export async function POST(req: Request) {
   } catch {
     // Persisting is best-effort; never block the demo on a DB hiccup.
   }
-  return NextResponse.json(profile);
+  return NextResponse.json({ profile, summary, sourceUrl });
 }

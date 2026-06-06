@@ -9,11 +9,13 @@ export default function CreatorOnboarding() {
   const [link, setLink] = useState("");
   const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState<CreatorProfile | null>(null);
+  const [summary, setSummary] = useState<string | null>(null);
 
   async function submit() {
     setLoading(true);
-    const p = await extractCreator(link || "instagram.com/lisa_hamburg_eats");
-    setProfile(p);
+    const res = await extractCreator(link || "instagram.com/lisa_hamburg_eats");
+    setProfile(res.profile);
+    setSummary(res.summary ?? null);
     setLoading(false);
   }
 
@@ -93,6 +95,7 @@ export default function CreatorOnboarding() {
 
             <div className="mt-6 rounded-2xl bg-cloud p-4 text-sm text-muted">
               ✨ Profil von der KI erstellt. Marken sehen dich jetzt in passenden Match-Listen.
+              {summary && <p className="mt-2 text-ink">{summary}</p>}
             </div>
             <Link
               href="/creator/dashboard"

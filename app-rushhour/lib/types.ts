@@ -63,6 +63,20 @@ export type MatchResponse = {
   results: MatchResult[];   // sorted by score desc
 };
 
+// What the extract-* API routes return: the structured profile plus the raw
+// scrape artifacts (AI summary + source URL) so the UI can show what was read.
+export type ExtractBusinessResult = {
+  profile: BusinessProfile;
+  summary?: string;
+  sourceUrl?: string;
+};
+
+export type ExtractCreatorResult = {
+  profile: CreatorProfile;
+  summary?: string;
+  sourceUrl?: string;
+};
+
 export type GoalPreset = { id: string; label: string };
 
 export const GOAL_PRESETS: GoalPreset[] = [

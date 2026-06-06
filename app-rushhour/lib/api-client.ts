@@ -1,4 +1,11 @@
-import { BusinessProfile, CreatorProfile, MatchResponse, MatchResult, Weights } from "./types";
+import {
+  BusinessProfile,
+  ExtractBusinessResult,
+  ExtractCreatorResult,
+  MatchResponse,
+  MatchResult,
+  Weights,
+} from "./types";
 import { MOCK_BUSINESS, MOCK_CREATOR, mockMatch, mockReport } from "./mock-data";
 import { getMockMode } from "./mock-mode";
 
@@ -9,13 +16,27 @@ async function post<T>(path: string, body: unknown): Promise<T> {
   return res.json() as Promise<T>;
 }
 
-export async function extractBusiness(url: string): Promise<BusinessProfile> {
-  if (getMockMode()) return MOCK_BUSINESS;
-  return post<BusinessProfile>("/api/extract-business", { url });
+export async function extractBusiness(url: string): Promise<ExtractBusinessResult> {
+  if (getMockMode()) {
+    return {
+      profile: MOCK_BUSINESS,
+      summary:
+        "Familiengeführtes italienisches Restaurant in Hamburg-Eppendorf mit warmem, rustikalem Ambiente und hausgemachter Pasta. Spricht lokale Gäste an, die authentische Küche schätzen.",
+      sourceUrl: "https://trattoria-bella.de",
+    };
+  }
+  return post<ExtractBusinessResult>("/api/extract-business", { url });
 }
-export async function extractCreator(link: string): Promise<CreatorProfile> {
-  if (getMockMode()) return MOCK_CREATOR;
-  return post<CreatorProfile>("/api/extract-creator", { link });
+export async function extractCreator(link: string): Promise<ExtractCreatorResult> {
+  if (getMockMode()) {
+    return {
+      profile: MOCK_CREATOR,
+      summary:
+        "Hamburger Food-Creatorin mit warmem, authentischem Stil. Stark lokale Community (71 % aus Hamburg) und überdurchschnittliches Engagement.",
+      sourceUrl: "https://instagram.com/lisa_hamburg_eats",
+    };
+  }
+  return post<ExtractCreatorResult>("/api/extract-creator", { link });
 }
 export async function match(business: BusinessProfile, goalText: string, presetId?: string): Promise<MatchResponse> {
   if (getMockMode()) return mockMatch(presetId);

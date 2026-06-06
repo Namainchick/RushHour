@@ -12,5 +12,5 @@ export async function POST(req: Request) {
   } catch {
     // Best-effort persistence.
   }
-  return NextResponse.json(profile);
+  return NextResponse.json({ profile, summary, sourceUrl });
 }
