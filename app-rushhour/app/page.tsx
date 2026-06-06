@@ -1,65 +1,89 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
+import { BusinessProfile, MatchResult, Weights, GOAL_PRESETS } from "@/lib/types";
+import { extractBusiness, match } from "@/lib/api-client";
+import { CreatorCard } from "@/components/CreatorCard";
+import { CollabReport } from "@/components/CollabReport";
+
+type Step = "intake" | "goal" | "results";
 
 export default function Home() {
+  const [step, setStep] = useState<Step>("intake");
+  const [url, setUrl] = useState("");
+  const [business, setBusiness] = useState<BusinessProfile | null>(null);
+  const [presetId, setPresetId] = useState<string>("local_traffic");
+  const [results, setResults] = useState<MatchResult[]>([]);
+  const [weights, setWeights] = useState<Weights | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [selected, setSelected] = useState<MatchResult | null>(null);
+
+  async function submitUrl() {
+    setLoading(true);
+    const biz = await extractBusiness(url || "trattoria-bella.de");
+    setBusiness(biz); setLoading(false); setStep("goal");
+  }
+  async function runMatch(preset: string) {
+    if (!business) return;
+    setPresetId(preset); setLoading(true);
+    const res = await match(business, "", preset);
+    setResults(res.results); setWeights(res.weights); setLoading(false); setStep("results");
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="mx-auto flex min-h-screen max-w-lg flex-col px-5 py-10">
+      <h1 className="text-2xl font-bold tracking-tight text-neutral-900">RushHour</h1>
+
+      {step === "intake" && (
+        <div className="mt-16">
+          <p className="text-lg text-neutral-700">Finde den Creator, der dein Ziel trifft.</p>
+          <div className="mt-6 flex gap-2">
+            <input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="deine-website.de"
+              className="flex-1 rounded-xl border border-neutral-300 px-4 py-3 outline-none focus:border-neutral-900" />
+            <button onClick={submitUrl} disabled={loading}
+              className="rounded-xl bg-neutral-900 px-5 py-3 font-medium text-white disabled:opacity-50">
+              {loading ? "…" : "Los →"}
+            </button>
+          </div>
+          <p className="mt-3 text-sm text-neutral-400">So einfach wie ein Airbnb-Inserat.</p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      )}
+
+      {step === "goal" && business && (
+        <div className="mt-12">
+          <div className="rounded-2xl bg-neutral-50 p-4 text-sm text-neutral-600">
+            Erkannt: <span className="font-medium text-neutral-900">{business.name}</span> · {business.category} · {business.city}
+          </div>
+          <p className="mt-8 text-lg text-neutral-700">Was willst du erreichen?</p>
+          <div className="mt-4 space-y-2">
+            {GOAL_PRESETS.map((g) => (
+              <button key={g.id} onClick={() => runMatch(g.id)} disabled={loading}
+                className="w-full rounded-xl border border-neutral-200 px-4 py-3 text-left hover:border-neutral-900 disabled:opacity-50">
+                {g.label}
+              </button>
+            ))}
+          </div>
         </div>
-      </main>
-    </div>
+      )}
+
+      {step === "results" && (
+        <div className="mt-8">
+          <label className="text-sm text-neutral-500">Ziel</label>
+          <select value={presetId} onChange={(e) => runMatch(e.target.value)}
+            className="mt-1 w-full rounded-xl border border-neutral-300 px-4 py-3">
+            {GOAL_PRESETS.map((g) => <option key={g.id} value={g.id}>{g.label}</option>)}
+          </select>
+          <div className="mt-5 space-y-3">
+            {loading && <div className="text-sm text-neutral-400">KI matcht…</div>}
+            {!loading && results.map((r) => (
+              <CreatorCard key={r.creator.id} result={r} onClick={() => setSelected(r)} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {selected && business && weights && (
+        <CollabReport business={business} result={selected} weights={weights} onClose={() => setSelected(null)} />
+      )}
+    </main>
   );
 }
