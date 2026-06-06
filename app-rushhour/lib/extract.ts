@@ -21,6 +21,13 @@ function hostOf(url: string): string {
   try { return new URL(normalizeUrl(url)).hostname.replace(/^www\./, ""); } catch { return ""; }
 }
 
+// Stable id per domain so re-scraping the same website updates the existing
+// row (upsert on id) instead of creating a duplicate business.
+function bizId(host: string): string {
+  const slug = host.replace(/[^a-z0-9]/gi, "").toLowerCase();
+  return slug ? `biz_${slug}` : bizId(host);
+}
+
 // Pull a handle out of a profile link or raw @handle.
 function handleOf(link: string): string {
   const s = (link || "").trim();
@@ -82,7 +89,7 @@ export async function extractBusiness(
   const fallback = (businesses as BusinessProfile[])[0];
   if (!text) {
     return {
-      profile: { ...fallback, id: `biz_${randomUUID().slice(0, 8)}`, description: host ? `${fallback.description} (Quelle: ${host})` : fallback.description },
+      profile: { ...fallback, id: bizId(host), description: host ? `${fallback.description} (Quelle: ${host})` : fallback.description },
       sourceUrl,
     };
   }
@@ -97,7 +104,7 @@ export async function extractBusiness(
     });
     const p = JSON.parse(res.choices[0].message.content || "{}");
     const profile: BusinessProfile = {
-      id: `biz_${randomUUID().slice(0, 8)}`,
+      id: bizId(host),
       name: String(p.name || fallback.name),
       category: String(p.category || fallback.category),
       city: String(p.city || fallback.city),
@@ -107,7 +114,7 @@ export async function extractBusiness(
     };
     return { profile, summary: p.summary ? String(p.summary) : undefined, sourceUrl };
   } catch {
-    return { profile: { ...fallback, id: `biz_${randomUUID().slice(0, 8)}` }, sourceUrl };
+    return { profile: { ...fallback, id: bizId(host) }, sourceUrl };
   }
 }
 
