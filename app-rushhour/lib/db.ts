@@ -101,3 +101,79 @@ export async function saveBusiness(
   if (error) throw new Error(`saveBusiness: ${error.message}`);
   return b;
 }
+
+// ---- Overview (for the "what we scraped" demo page) ----
+
+export type BusinessOverview = {
+  id: string;
+  name: string;
+  category: string | null;
+  city: string | null;
+  neighborhood: string | null;
+  styleTags: string[];
+  sourceUrl: string | null;
+  summary: string | null;
+  createdAt: string;
+};
+
+export type CreatorOverview = {
+  id: string;
+  handle: string;
+  platform: string;
+  followers: number;
+  avatarUrl: string | null;
+  audienceCity: string | null;
+  topics: string[];
+  styleTags: string[];
+  sourceUrl: string | null;
+  summary: string | null;
+  createdAt: string;
+  signals: { localShare: number; engagement: number; reach: number };
+};
+
+export async function getBusinessesOverview(): Promise<BusinessOverview[]> {
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("businesses")
+    .select("id,name,category,city,neighborhood,style_tags,source_url,profile_summary,created_at")
+    .order("created_at", { ascending: false });
+  if (error) throw new Error(`getBusinessesOverview: ${error.message}`);
+  return (data ?? []).map((r: Record<string, unknown>) => ({
+    id: r.id as string,
+    name: r.name as string,
+    category: (r.category as string) ?? null,
+    city: (r.city as string) ?? null,
+    neighborhood: (r.neighborhood as string) ?? null,
+    styleTags: (r.style_tags as string[]) ?? [],
+    sourceUrl: (r.source_url as string) ?? null,
+    summary: (r.profile_summary as string) ?? null,
+    createdAt: r.created_at as string,
+  }));
+}
+
+export async function getCreatorsOverview(): Promise<CreatorOverview[]> {
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("creators")
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (error) throw new Error(`getCreatorsOverview: ${error.message}`);
+  return (data ?? []).map((r: Record<string, unknown>) => ({
+    id: r.id as string,
+    handle: r.handle as string,
+    platform: (r.platform as string) ?? "instagram",
+    followers: (r.followers as number) ?? 0,
+    avatarUrl: (r.avatar_url as string) ?? null,
+    audienceCity: (r.audience_city as string) ?? null,
+    topics: (r.topics as string[]) ?? [],
+    styleTags: (r.style_tags as string[]) ?? [],
+    sourceUrl: (r.source_url as string) ?? null,
+    summary: (r.profile_summary as string) ?? null,
+    createdAt: r.created_at as string,
+    signals: {
+      localShare: (r.local_share as number) ?? 0,
+      engagement: (r.engagement as number) ?? 0,
+      reach: (r.reach as number) ?? 0,
+    },
+  }));
+}

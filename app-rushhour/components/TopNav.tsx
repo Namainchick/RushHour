@@ -29,6 +29,7 @@ export function TopNav() {
         <div className="flex items-center gap-1 text-sm font-medium">
           {link("/", "Für Geschäfte", true)}
           {link("/creator", "Für Creators")}
+          {link("/data", "Daten")}
           <Link
             href="/reservations"
             className={`relative rounded-full px-4 py-2 transition ${
